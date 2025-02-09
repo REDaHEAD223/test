@@ -17,7 +17,7 @@ const mainReducer = (state = initialState, action) => {
         case SET_LOADING: {
             return {
                 ...state,
-                isLoading: true, // При начале загрузки устанавливаем флаг в true
+                isLoading: true,
             };
         }
         default:
