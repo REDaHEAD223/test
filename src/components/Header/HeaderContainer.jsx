@@ -1,18 +1,11 @@
 import React from 'react';
 import Header from "./Header";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 
-class HeaderContainer extends React.Component {
+const HeaderContainer = () => {
+    const cartItemsCount = useSelector(state => state.cart.items.length);
 
-    render() {
-        return <Header {...this.props} />
-    }
-}
+    return <Header cartItemsCount={cartItemsCount} />;
+};
 
-let mapStateToProps = (state) => {
-    return {
-        cartItemsCount: state.cart.items.length,
-    }
-}
-
-export default connect(mapStateToProps) (HeaderContainer);
+export default HeaderContainer;

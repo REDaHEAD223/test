@@ -1,24 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Main from "./Main";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchCartData} from "../../redux/main-reducer";
 
-class MainContainer extends React.Component {
+const MainContainer = () => {
 
-    componentDidMount() {
-    this.props.fetchCartData(this.props.cartData);
-    }
+    const dispatch = useDispatch();
 
-    render() {
-        return <Main {...this.props} />
-    }
-}
+    const cartData = useSelector(state => state.mainPage.cartData);
+    const isLoading = useSelector(state => state.mainPage.isLoading);
 
-let mapStateToProps = (state) => {
-    return {
-        mainPage: state.mainPage.cartData,
-        isLoading: state.mainPage.isLoading
-    }
-}
+    useEffect(() => {
+        dispatch(fetchCartData());
+    }, [dispatch]);
 
-export default connect(mapStateToProps, {fetchCartData}) (MainContainer);
+    return <Main cartData={cartData} isLoading={isLoading} />;
+};
+
+
+export default MainContainer;
