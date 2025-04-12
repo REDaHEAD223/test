@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { removeFromCart } from '../../redux/cart-reducer';
-import classes from './CartPage.module.css';
+import {
+    CartPageWrapper,
+    CartContent,
+    CartItemsContainer,
+    CartItem,
+    ItemInfo,
+    RemoveButton,
+    Total,
+    DeliveryForm,
+    FormGroup,
+    SubmitButton
+} from './CartPage.styled';
 
 const CartPage = (props) => {
     const [deliveryAddress, setDeliveryAddress] = useState({
@@ -27,40 +38,37 @@ const CartPage = (props) => {
     };
 
     return (
-        <div className={classes.cartPage}>
-            <div className={classes.cartContent}>
-                <div className={classes.cartItems}>
+        <CartPageWrapper>
+            <CartContent>
+                <CartItemsContainer>
                     <h2>Корзина</h2>
                     {props.items.length === 0 ? (
                         <p>Корзина пуста</p>
                     ) : (
                         <>
                             {props.items.map(item => (
-                                <div key={item.cartId} className={classes.cartItem}>
+                                <CartItem key={item.cartId}>
                                     <img src={item.image} alt={item.title} />
-                                    <div className={classes.itemInfo}>
+                                    <ItemInfo>
                                         <h3>{item.title}</h3>
                                         <p>{item.price}</p>
-                                    </div>
-                                    <button 
-                                        onClick={() => props.removeFromCart(item.cartId)}
-                                        className={classes.removeButton}
-                                    >
+                                    </ItemInfo>
+                                    <RemoveButton onClick={() => props.removeFromCart(item.cartId)}>
                                         Удалить
-                                    </button>
-                                </div>
+                                    </RemoveButton>
+                                </CartItem>
                             ))}
-                            <div className={classes.total}>
+                            <Total>
                                 <h3>Итого: ${totalSum.toFixed(2)}</h3>
-                            </div>
+                            </Total>
                         </>
                     )}
-                </div>
+                </CartItemsContainer>
 
-                <div className={classes.deliveryForm}>
+                <DeliveryForm>
                     <h2>Адрес доставки</h2>
                     <form>
-                        <div className={classes.formGroup}>
+                        <FormGroup>
                             <label>ФИО:</label>
                             <input
                                 type="text"
@@ -69,8 +77,8 @@ const CartPage = (props) => {
                                 onChange={handleInputChange}
                                 placeholder="Введите ваше ФИО"
                             />
-                        </div>
-                        <div className={classes.formGroup}>
+                        </FormGroup>
+                        <FormGroup>
                             <label>Улица:</label>
                             <input
                                 type="text"
@@ -79,8 +87,8 @@ const CartPage = (props) => {
                                 onChange={handleInputChange}
                                 placeholder="Введите улицу"
                             />
-                        </div>
-                        <div className={classes.formGroup}>
+                        </FormGroup>
+                        <FormGroup>
                             <label>Город:</label>
                             <input
                                 type="text"
@@ -89,8 +97,8 @@ const CartPage = (props) => {
                                 onChange={handleInputChange}
                                 placeholder="Введите город"
                             />
-                        </div>
-                        <div className={classes.formGroup}>
+                        </FormGroup>
+                        <FormGroup>
                             <label>Телефон:</label>
                             <input
                                 type="tel"
@@ -99,19 +107,18 @@ const CartPage = (props) => {
                                 onChange={handleInputChange}
                                 placeholder="Введите номер телефона"
                             />
-                        </div>
-                        <button 
-                            type="button" 
+                        </FormGroup>
+                        <SubmitButton
+                            type="button"
                             onClick={handleSubmitOrder}
-                            className={classes.submitButton}
                             disabled={props.items.length === 0}
                         >
                             Оформить заказ
-                        </button>
+                        </SubmitButton>
                     </form>
-                </div>
-            </div>
-        </div>
+                </DeliveryForm>
+            </CartContent>
+        </CartPageWrapper>
     );
 };
 
@@ -119,4 +126,4 @@ const mapStateToProps = (state) => ({
     items: state.cart.items
 });
 
-export default connect(mapStateToProps, { removeFromCart })(CartPage); 
+export default connect(mapStateToProps, { removeFromCart })(CartPage);
